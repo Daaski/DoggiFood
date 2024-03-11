@@ -1,0 +1,33 @@
+@import "src/app/utils.scss";
+
+.table_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  margin-top: 15px;
+}
+
+.table_headers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #EEEEEE;;
+  color: black;
+  padding: 0 15px;
+  @include phoneOrTablet {
+    padding: 0 5px;
+  }
+  & > h1 {
+    font-size: 20px
+  }
+  & > div {
+    display:flex;
+    column-gap: 5px;
+  }
+}

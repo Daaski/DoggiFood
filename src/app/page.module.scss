@@ -1,0 +1,39 @@
+@import "utils.scss";
+
+.inputs_wrapper {
+    display: flex;
+    column-gap: 10px;
+    & > button {
+        height: 40px;
+        margin-top: auto;
+        @include phoneOrTablet {
+            width: max-content;
+        }
+    }
+    @include phoneOrTablet {
+        flex-direction: column;
+        row-gap: 5px
+    }
+}
+
+.inputs {
+    display: flex;
+    margin-top: 30px;
+    column-gap: 10px;
+    @include phoneOrTablet {
+        flex-flow: row wrap;
+        & > span {
+            width: calc(50% - 10px);
+            & input {
+                width: 100%
+            }
+        }
+        row-gap: 25px;
+    }
+    @include phone {
+        flex-direction: column;
+        & > span {
+            width: 100%;
+        }
+    }
+}
