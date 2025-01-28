@@ -1,25 +1,48 @@
+export interface FoodType {
+  name: string;
+  amount: number;
+}
 
-export function calculateDoggiFood(
-    amountFoodPerTime: number,
-    amountTimesPerDay: number,
-    countDays: number
-) {
-    const arrayFood = new Map();
-    let newFoodPercent = 0;
+export interface CalculateDoggiFoodProps {
+  amountFoodPerTimeNew: FoodType[];
+  amountFoodPerTimeOld: FoodType[];
+  amountTimesPerDay: number;
+  countDays: number;
+}
 
-    const totalAmountOperations = amountTimesPerDay * countDays;
+export function calculateDoggiFood(props: CalculateDoggiFoodProps) {
+  const {
+    amountFoodPerTimeNew,
+    amountFoodPerTimeOld,
+    amountTimesPerDay,
+    countDays,
+  } = props;
 
-    for (let i = 0; i < countDays; i++) {
-        const dayArray: { oldFood: number; newFood: number }[] = [];
-        for (let j = 0; j < amountTimesPerDay; j++) {
-            newFoodPercent += 100 / totalAmountOperations;
-            dayArray.push({
-                newFood: +(amountFoodPerTime * (newFoodPercent / 100)).toFixed(1),
-                oldFood: +(amountFoodPerTime * ((100 - newFoodPercent) / 100)).toFixed(1),
-            });
-            arrayFood.set(`День: ${i}`, dayArray);
-        }
+  const arrayFood = new Map();
+  let newFoodPercent = 0;
+
+  const totalAmountOperations = amountTimesPerDay * countDays;
+
+  const calculateFood = (food: FoodType[], reverse = false) => {
+    return food.map((f) => ({
+      amount: reverse
+        ? +(f.amount * ((100 - newFoodPercent) / 100)).toFixed(1)
+        : +(f.amount * (newFoodPercent / 100)).toFixed(1),
+      name: f.name,
+    }));
+  };
+
+  for (let i = 0; i < countDays; i++) {
+    const dayArray: { oldFood: FoodType[]; newFood: FoodType[] }[] = [];
+    for (let j = 0; j < amountTimesPerDay; j++) {
+      newFoodPercent += 100 / totalAmountOperations;
+      dayArray.push({
+        newFood: calculateFood(amountFoodPerTimeNew),
+        oldFood: calculateFood(amountFoodPerTimeOld, true),
+      });
+      arrayFood.set(`День: ${i + 1}`, dayArray);
     }
+  }
 
-    return arrayFood;
+  return arrayFood;
 }
